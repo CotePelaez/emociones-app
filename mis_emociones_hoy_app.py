@@ -144,8 +144,7 @@ if st.button("Obtener sugerencias"):
               f"rellena este campo y lo obviamos para nuestra respuesta). Teniendo en cuenta lo anterior"
               f"Dame dos cosas sencillas simples qué hacer para hacer hoy " 
               f"en mi entorno () y que me ayuden a mejorar"
-              f"o a agradecer"
-              f"2 ejercicios. Intenta ser creativo con cosas sencillas")
+              f"o a agradecer")
     
     respuesta = client.chat.completions.create(
         model = "gpt-3.5-turbo",
