@@ -3,6 +3,17 @@ from openai import OpenAI
 import os
 import requests
 
+# Cambiar el tamaño del texto usando CSS inyectado
+st.markdown(
+    """
+    <style>
+    .big-font {
+        font-size:33px !important;
+    }
+    </style>
+    """, 
+    unsafe_allow_html=True
+)
 
 # Inyectar CSS en la aplicación
 st.markdown("""
