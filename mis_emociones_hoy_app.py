@@ -103,9 +103,13 @@ subemocion = st.selectbox("Selecciona la emoción que mejor describe cómo te si
 # Selección de la emoción más específica
 emocion_especifica = st.selectbox("Selecciona la emoción más específica", emociones[emocion_principal][subemocion])
 
-ubicacion = st.text_input("¿Dónde vives? (Ciudad, País)")
-edad = st.slider("¿Cuál es tu edad?", 18, 70, 25)
-extra_info = st.text_input(label="sobre ti, si quieres", value="", key="hidden_input2",
+ubicacion = st.text_input(label="Donde estás", value="", key="hidden_input1", 
+                                placeholder="Ciudad",
+                                autocomplete = "on")
+edad = ubicacion = st.text_input(label="Edad", value="", key="hidden_input2", 
+                                placeholder="Años que tienes",
+                                autocomplete = "on")
+extra_info = st.text_input(label="sobre ti, si quieres", value="", key="hidden_input3",
                                 placeholder="Me siento así por...")
 nivel_fisico = st.selectbox("¿Cuál es tu nivel de condición física hoy?", ["Bajo", "Medio", "Alto"])
 
@@ -128,9 +132,9 @@ if st.button("Obtener sugerencias"):
               f"Hoy me siento {emocion_principal}, {subemocion} y {emocion_especifica} y nos cuenta exta información extra {extra_info} (puede ser que el usuario no"
               f"rellena este campo y lo obviamos para nuestra respuesta). Teniendo en cuenta lo anterior"
               f"Dame dos cosas sencillas simples qué hacer para hacer hoy " 
-              f"en mi entorno () y que me ayuden a mejorar si el estado no es positivo"
-              f"o a agradecer si el estado es negativo"
-              f"2 ejercicios")
+              f"en mi entorno () y que me ayuden a mejorar"
+              f"o a agradecer"
+              f"2 ejercicios. Intenta ser creativo con cosas sencillas")
     
     respuesta = client.chat.completions.create(
         model = "gpt-3.5-turbo",
