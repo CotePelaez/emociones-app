@@ -64,41 +64,44 @@ openai_api_key = os.getenv('OPENAI_API_KEY')
 
 # Diccionario de emociones basado en la ruleta
 emociones = {
-    "Ira": {
-        "Frustrado": ["Agobiado", "Irritable", "Exasperado"],
-        "Agresivo": ["Hostil", "Provocador", "Rabioso"],
-        "Irritado": ["Molesto", "Incómodo", "Tenso"],
-        "Furioso": ["Enfurecido", "Ultrajado", "Furibundo"]
+    'Alegre': {
+        'Emocionado': ['Energético', 'Sensual'],
+        'Creativo': ['Fascinado', 'Estimulante'],
+        'Alegre': ['Juguetón', 'Divertido'],
+        'Orgulloso': ['Optimista', 'Esperanzado'],
     },
-    "Miedo": {
-        "Ansioso": ["Preocupado", "Atemorizado", "Inseguro"],
-        "Inseguro": ["Dudoso", "Vacilante", "Nervioso"],
-        "Asustado": ["Espantado", "Intimidado", "Paranoico"],
-        "Atemorizado": ["Horrorizado", "Espantado", "Petrificado"]
+    'En paz': {
+        'Contento': ['Amoroso', 'Íntimo'],
+        'Pensativo': ['Reflexivo', 'Receptivo'],
+        'Sereno': ['Seguro', 'Agradecido'],
+        'Relajado': ['Tranquilo', 'Cómodo']
     },
-    "Asco": {
-        "Disgustado": ["Repulsivo", "Desaprobador", "Rechazante"],
-        "Horrorizado": ["Impactado", "Aversivo", "Horripilado"],
-        "Desaprobador": ["Crítico", "Despectivo", "Desdeñoso"],
-        "Repulsivo": ["Asqueado", "Abominable", "Aborrecible"]
+    'Poderoso': {
+        'Orgulloso': ['Confiado', 'Exitoso'],
+        'Respetado': ['Importante', 'Valioso'],
+        'Valiente': ['Valioso', 'Importante'],
+        'Esperanzado': ['Resiliente', 'Capaz']
     },
-    "Tristeza": {
-        "Deprimido": ["Desolado", "Melancólico", "Abatido"],
-        "Desesperado": ["Desalentado", "Desanimado", "Desesperanzado"],
-        "Solo": ["Abandonado", "Ignorado", "Indefenso"],
-        "Abandonado": ["Desamparado", "Aislado", "Olvidado"]
+    'Triste': {
+        'Culpable': ['Avergonzado', 'Deprimido'],
+        'Confundido': ['Solo', 'Aburrido'],
+        'Desamparado': ['Cansado', 'Somnoliento'],
+        'Desalentado': ['Apático', 'Aislado'],
+        'Desconcertado': ['Inferior', 'Estúpido'],
+        'Arrepentido': ['Lamentable', 'Lo siento'],
     },
-    "Felicidad": {
-        "Alegre": ["Contento", "Entusiasmado", "Animado"],
-        "Contento": ["Satisfecho", "Agradecido", "Bendecido"],
-        "Eufórico": ["Extasiado", "Elevado", "Entusiasta"],
-        "Optimista": ["Esperanzado", "Positivo", "Seguro"]
+    'Enojado': {
+        'Dolido': ['Distante', 'Sarcástico'],
+        'Hostil': ['Enfadado', 'Egoísta'],
+        'Odioso': ['Crítico', 'Odiador'],
+        'Frustrado': ['Celoso', 'Irritado'],
+        'Escéptico': ['Escéptico', 'Desconfiado']
     },
-    "Sorpresa": {
-        "Sorprendido": ["Asombrado", "Desconcertado", "Pasmado"],
-        "Asombrado": ["Estupefacto", "Boquiabierto", "Maravillado"],
-        "Impulsivo": ["Caprichoso", "Inesperado", "Espontáneo"],
-        "Desconcertado": ["Confuso", "Desorientado", "Desorientado"]
+    'Asustado': {
+        'Ansioso': ['Abrumado', 'Avergonzado'],
+        'Inseguro': ['Desamparado', 'Insignificante'],
+        'Rechazado': ['Sumiso', 'Desalentado'],
+        'Confundido': ['Perdido', 'Perplejo'],
     }
 }
 
@@ -124,38 +127,37 @@ extra_info = st.text_input(label="sobre ti, si quieres", value="", key="hidden_i
                                 placeholder="Me siento así por...")
 nivel_fisico = st.selectbox("¿Cuál es tu nivel de condición física hoy?", ["Bajo", "Medio", "Alto"])
 
-if st.button("Obtener sugerencias"):
+if st.button("Obtener sugerencias según tu estado de ánimo"):
     # Genera una imagen inspiradora usando una descripción del día
     client = OpenAI(api_key= openai_api_key) 
-    imagen_respuesta = client.images.generate(
-    model="dall-e-3",
-    prompt=f"Con tonos pasteles.Create an inspiring image of a day for someone who is feeling {subemocion} and lives in {ubicacion}.",
-    size="1792x1024",#1024x1792', '1792x1024
-    quality="standard",
-    n=1,
-    )
-    imagen_url = imagen_respuesta.data[0].url
-    st.write("# Tu imagen inspiradora del día:")
-    st.image(imagen_url)
+    #imagen_respuesta = client.images.generate(
+    #model="dall-e-3",
+    #prompt=f"Con tonos pasteles.Create an inspiring image of a day for someone who is feeling {subemocion} and lives in {ubicacion}.",
+    #size="1792x1024",#1024x1792', '1792x1024
+    #quality="standard",
+    #n=1,
+    #)
+    #imagen_url = imagen_respuesta.data[0].url
+    #st.write("# Tu imagen inspiradora del día:")
+    #st.image(imagen_url)
 
     # Generar sugerencias de ejercicios y en la emoción seleccionada
-    prompt = (f"Soy una persona de {edad} años con un nivel físico hoy {nivel_fisico} que vive en {ubicacion}. "
-              f"Hoy me siento {emocion_principal}, {subemocion} y {emocion_especifica} y nos cuenta exta información extra {extra_info} (puede ser que el usuario no"
-              f"rellena este campo y lo obviamos para nuestra respuesta). Teniendo en cuenta lo anterior"
-              f"Dame dos cosas sencillas simples qué hacer para hacer hoy " 
-              f"en mi entorno () y que me ayuden a mejorar"
-              f"o a agradecer")
+    prompt = (f"Soy una persona de {edad} años con un nivel físico {nivel_fisico} que vive en {ubicacion}. "
+        f"Hoy me siento {emocion_principal}, acompañado/a por sensaciones de {subemocion} y {emocion_especifica}. "
+        f"{extra_info}. Considerando mi edad, condición física, ubicación y estado de ánimo, "
+        f"¿qué dos acciones simples y creativas podría realizar hoy que me empoderen? "
+        f"Por favor, mantén las sugerencias breves, positivas y variadas, cada una de máximo 50 caracteres.")
     
     respuesta = client.chat.completions.create(
-        model = "gpt-3.5-turbo",
-        max_tokens = 250,
+        model = "gpt-4o-mini",
+        max_tokens = 200,
         temperature = 0.8,
         messages = [{'role': 'user', 'content': prompt}]
     )
     sugerencias =  respuesta.choices[0].message.content
 
     # Muestra las sugerencias
-    st.write("# Sugerencias para ti:")
+    st.write("# 2 Sugerencias para ti:")
     st.write(sugerencias)
     
     # Vamos a generar una meditación personalizada para ti
@@ -167,7 +169,7 @@ if st.button("Obtener sugerencias"):
          {necesidad}. Genera una consulta de búsqueda específica que podría utilizarse para encontrar meditaciones relevantes en YouTube, Insight Timer, Mindful.org, Spotify, o Tara Brach.
          """
         respuesta = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4",
         max_tokens=50,  # Reducido para mantener la consulta simple
         temperature=0.8,
         messages=[{'role': 'user', 'content': prompt}]
@@ -204,6 +206,8 @@ if st.button("Obtener sugerencias"):
             break
 
     # Mostrar el enlace de la meditación personalizada
+    st.write("# Meditación para tí:")
+
     if enlace_meditacion:
          st.markdown(f"[Haz clic aquí para tu meditación personalizada]({enlace_meditacion})")
     else:
